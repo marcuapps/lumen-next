@@ -2,6 +2,7 @@
 
 import { Plane } from "lucide-react";
 
+import { MainNav } from "@/components/dashboard/MainNav";
 import {
   Select,
   SelectContent,
@@ -10,6 +11,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { useAirport } from "@/hooks/use-airport";
+import { SNAPSHOT_TIMESTAMP } from "@/lib/snapshot";
 import type { AirportCode } from "@/lib/types";
 import { formatDateTime } from "@/lib/utils";
 
@@ -19,32 +22,28 @@ const AIRPORTS: { value: AirportCode; label: string; sub: string }[] = [
   { value: "SFO", label: "SFO", sub: "San Francisco Intl." },
 ];
 
-interface Props {
-  airport: AirportCode;
-  onAirportChange: (airport: AirportCode) => void;
-  snapshotTimestamp?: string;
-}
+export function DashboardHeader() {
+  const [airport, setAirport] = useAirport();
 
-export function DashboardHeader({
-  airport,
-  onAirportChange,
-  snapshotTimestamp,
-}: Props) {
   return (
-    <header className="border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-5 sm:px-6 md:flex-row md:items-center md:justify-between md:py-4 lg:px-8">
-        <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
-            <Plane className="h-4 w-4 -rotate-45" strokeWidth={2.5} />
+    <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+        <div className="flex items-center gap-6">
+          <div className="flex items-center gap-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
+              <Plane className="h-4 w-4 -rotate-45" strokeWidth={2.5} />
+            </div>
+            <div>
+              <h1 className="text-base font-semibold tracking-tight">Lumen</h1>
+              <p className="text-xs text-muted-foreground">
+                Airport demand intelligence from saved flight snapshots
+              </p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-base font-semibold tracking-tight">
-              Lumen
-            </h1>
-            <p className="text-xs text-muted-foreground">
-              Airport demand intelligence from saved flight snapshots
-            </p>
-          </div>
+
+          <Separator orientation="vertical" className="hidden h-9 lg:block" />
+
+          <MainNav />
         </div>
 
         <div className="flex flex-wrap items-center gap-3 md:gap-4">
@@ -54,7 +53,7 @@ export function DashboardHeader({
             </span>
             <Select
               value={airport}
-              onValueChange={(v) => onAirportChange(v as AirportCode)}
+              onValueChange={(v) => setAirport(v as AirportCode)}
             >
               <SelectTrigger className="mt-0.5 h-9 w-[180px] font-medium">
                 <SelectValue />
@@ -81,7 +80,7 @@ export function DashboardHeader({
               Snapshot
             </span>
             <span className="mt-1 font-mono text-sm tabular-nums text-foreground">
-              {snapshotTimestamp ? formatDateTime(snapshotTimestamp) : "—"}
+              {formatDateTime(SNAPSHOT_TIMESTAMP)}
             </span>
           </div>
         </div>

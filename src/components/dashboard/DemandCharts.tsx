@@ -54,7 +54,7 @@ export function DemandCharts({ buckets, loading }: Props) {
     <div className="grid gap-4 lg:grid-cols-2">
       <Card className="overflow-hidden">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base font-semibold">
+          <CardTitle className="font-display text-lg font-bold tracking-tight">
             Arrivals by 15-minute window
           </CardTitle>
           <CardDescription>
@@ -122,7 +122,7 @@ export function DemandCharts({ buckets, loading }: Props) {
 
       <Card className="overflow-hidden">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base font-semibold">
+          <CardTitle className="font-display text-lg font-bold tracking-tight">
             Estimated pickup demand
           </CardTitle>
           <CardDescription>

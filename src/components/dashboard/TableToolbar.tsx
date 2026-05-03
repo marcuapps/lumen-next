@@ -1,6 +1,6 @@
 "use client";
 
-import { Search } from "lucide-react";
+import { Building2, Search } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -33,53 +33,47 @@ export function TableToolbar({
   onTerminalChange,
 }: Props) {
   return (
-    <div className="flex flex-col gap-3 border-b p-4 md:flex-row md:items-center md:justify-between">
+    <div className="flex flex-col gap-3 border-b border-border/60 p-4 md:flex-row md:items-center md:justify-between">
       <div className="relative w-full md:max-w-sm">
-        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder="Search flight, airline, or origin"
-          className="pl-9"
+          className="h-10 rounded-full pl-10"
         />
       </div>
 
-      <div className="flex flex-wrap items-center gap-3">
-        <div className="flex items-center gap-2">
-          <Label
-            htmlFor="terminal-select"
-            className="text-xs font-medium uppercase tracking-wider text-muted-foreground"
+      <div className="flex flex-wrap items-center gap-2">
+        <Select value={terminal} onValueChange={onTerminalChange}>
+          <SelectTrigger
+            id="terminal-select"
+            className="h-10 w-auto gap-2 rounded-full border bg-card pl-3.5 pr-3 text-sm"
           >
-            Terminal
-          </Label>
-          <Select value={terminal} onValueChange={onTerminalChange}>
-            <SelectTrigger id="terminal-select" className="h-9 w-[120px]">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All terminals</SelectItem>
-              {terminals.map((t) => (
-                <SelectItem key={t} value={t}>
-                  Terminal {t}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+            <Building2 className="h-3.5 w-3.5 text-muted-foreground" />
+            <SelectValue placeholder="Terminal" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All terminals</SelectItem>
+            {terminals.map((t) => (
+              <SelectItem key={t} value={t}>
+                Terminal {t}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
 
-        <div className="flex items-center gap-2 rounded-md border bg-background px-3 py-1.5">
+        <Label
+          htmlFor="delayed-only"
+          className="flex h-10 cursor-pointer items-center gap-2 rounded-full border bg-card px-3.5 text-sm font-medium"
+        >
           <Switch
             id="delayed-only"
             checked={delayedOnly}
             onCheckedChange={onDelayedOnlyChange}
           />
-          <Label
-            htmlFor="delayed-only"
-            className="cursor-pointer text-xs font-medium"
-          >
-            Delayed only
-          </Label>
-        </div>
+          Delayed only
+        </Label>
       </div>
     </div>
   );

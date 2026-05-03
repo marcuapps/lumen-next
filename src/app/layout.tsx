@@ -1,6 +1,6 @@
 import * as React from "react";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Bricolage_Grotesque, Inter } from "next/font/google";
 
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { QueryProvider } from "@/components/providers/QueryProvider";
@@ -11,6 +11,13 @@ const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
+});
+
+const display = Bricolage_Grotesque({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+  weight: ["500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -25,10 +32,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
-      <body className="min-h-screen bg-background font-sans antialiased">
+    <html
+      lang="en"
+      className={`${inter.variable} ${display.variable}`}
+      suppressHydrationWarning
+    >
+      <body className="min-h-screen bg-app font-sans antialiased">
         <QueryProvider>
-          <React.Suspense fallback={<div className="h-[73px] border-b" />}>
+          <React.Suspense fallback={<div className="h-[73px]" />}>
             <DashboardHeader />
           </React.Suspense>
           {children}

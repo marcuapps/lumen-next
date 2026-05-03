@@ -3,6 +3,7 @@
 import * as React from "react";
 
 import { FlightsTable } from "@/components/dashboard/FlightsTable";
+import { PageHeader } from "@/components/dashboard/PageHeader";
 import { PaginationControls } from "@/components/dashboard/PaginationControls";
 import { TableToolbar } from "@/components/dashboard/TableToolbar";
 import { Card } from "@/components/ui/card";
@@ -71,26 +72,20 @@ function FlightsView() {
   const terminals = TERMINALS_BY_AIRPORT[airport];
 
   return (
-    <main className="mx-auto max-w-7xl space-y-4 px-4 py-6 sm:px-6 lg:px-8">
-      <div className="flex flex-col gap-1">
-        <h2 className="text-lg font-semibold tracking-tight">
-          Inbound flights
-        </h2>
-        <p className="text-sm text-muted-foreground">
-          Server-side filtered, sorted, and paginated. Showing arrivals at{" "}
-          <span className="font-mono font-medium text-foreground">{airport}</span>
-          .
-        </p>
-      </div>
+    <main className="mx-auto max-w-7xl space-y-6 px-4 py-8 sm:px-6 lg:px-8">
+      <PageHeader
+        title="Flights overview"
+        description={`Every inbound flight at ${airport} in this snapshot — server-side filtered, sorted, and paginated.`}
+      />
 
-      <Card className="overflow-hidden">
-        <div className="flex items-center justify-between border-b px-4 py-3">
+      <Card className="overflow-hidden shadow-card">
+        <div className="flex items-center justify-between border-b px-5 py-4">
           <div>
             <h3 className="text-sm font-semibold tracking-tight">
               All arrivals
             </h3>
             <p className="text-xs text-muted-foreground">
-              {data?.pagination.total ?? 0} flights in this snapshot
+              {data?.pagination.total ?? 0} flights match the current filters
             </p>
           </div>
           <span
@@ -151,12 +146,12 @@ export default function FlightsPage() {
 
 function FlightsSkeleton() {
   return (
-    <main className="mx-auto max-w-7xl space-y-4 px-4 py-6 sm:px-6 lg:px-8">
-      <div className="space-y-2">
-        <div className="h-6 w-48 animate-pulse rounded bg-muted" />
-        <div className="h-4 w-72 animate-pulse rounded bg-muted" />
+    <main className="mx-auto max-w-7xl space-y-6 px-4 py-8 sm:px-6 lg:px-8">
+      <div className="space-y-3">
+        <div className="h-12 w-72 animate-pulse rounded-lg bg-muted" />
+        <div className="h-4 w-96 animate-pulse rounded bg-muted" />
       </div>
-      <div className="h-[520px] animate-pulse rounded-xl border bg-card" />
+      <div className="h-[520px] animate-pulse rounded-[1.25rem] bg-card shadow-card" />
     </main>
   );
 }

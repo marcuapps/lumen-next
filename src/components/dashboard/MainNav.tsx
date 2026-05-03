@@ -19,10 +19,7 @@ export function MainNav() {
   const querySuffix = query ? `?${query}` : "";
 
   return (
-    <nav
-      className="flex items-center gap-1 rounded-lg border bg-muted/40 p-1"
-      aria-label="Primary"
-    >
+    <nav className="flex items-center gap-2" aria-label="Primary">
       {ITEMS.map((item) => {
         const isActive =
           item.href === "/"
@@ -35,13 +32,13 @@ export function MainNav() {
             href={`${item.href}${querySuffix}`}
             aria-current={isActive ? "page" : undefined}
             className={cn(
-              "inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-colors",
+              "inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all",
               isActive
-                ? "bg-background text-foreground shadow-sm"
-                : "text-muted-foreground hover:text-foreground",
+                ? "bg-foreground text-background shadow-sm"
+                : "text-muted-foreground hover:bg-muted hover:text-foreground",
             )}
           >
-            <Icon className="h-3.5 w-3.5" />
+            <Icon className="h-4 w-4" strokeWidth={isActive ? 2.4 : 2} />
             {item.label}
           </Link>
         );

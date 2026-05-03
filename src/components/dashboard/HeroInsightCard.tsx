@@ -2,7 +2,6 @@
 
 import { ArrowRight, Clock, Sparkles, TrendingUp } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import type { Insights, Recommendation } from "@/lib/types";
@@ -15,41 +14,43 @@ interface Props {
 const RECOMMENDATION_STYLES: Record<
   Recommendation,
   {
-    badge: "success" | "warning" | "destructive";
     icon: typeof TrendingUp;
-    glow: string;
     label: string;
+    dot: string;
+    accent: string;
   }
 > = {
   "Head to airport now": {
-    badge: "success",
     icon: TrendingUp,
-    glow: "from-emerald-500/20 via-emerald-500/5",
     label: "GO NOW",
+    dot: "bg-emerald-500",
+    accent:
+      "bg-emerald-50 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300",
   },
   "Wait 30 minutes": {
-    badge: "warning",
     icon: Clock,
-    glow: "from-amber-500/20 via-amber-500/5",
     label: "HOLD",
+    dot: "bg-amber-500",
+    accent:
+      "bg-amber-50 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300",
   },
   "Avoid airport": {
-    badge: "destructive",
     icon: Sparkles,
-    glow: "from-rose-500/20 via-rose-500/5",
     label: "AVOID",
+    dot: "bg-rose-500",
+    accent:
+      "bg-rose-50 text-rose-700 dark:bg-rose-500/15 dark:text-rose-300",
   },
 };
 
 export function HeroInsightCard({ insights, loading }: Props) {
   if (loading || !insights) {
     return (
-      <div className="relative overflow-hidden rounded-2xl border bg-card p-6 shadow-sm sm:p-8">
+      <div className="rounded-[1.5rem] border border-border/60 bg-card p-8 shadow-card">
         <div className="space-y-4">
           <Skeleton className="h-5 w-32" />
-          <Skeleton className="h-10 w-3/4" />
+          <Skeleton className="h-12 w-3/4" />
           <Skeleton className="h-4 w-2/3" />
-          <Skeleton className="h-4 w-1/2" />
         </div>
       </div>
     );
@@ -60,56 +61,56 @@ export function HeroInsightCard({ insights, loading }: Props) {
   const headline = buildHeadline(insights);
 
   return (
-    <div className="relative overflow-hidden rounded-2xl border bg-card shadow-sm">
-      <div
-        className={cn(
-          "absolute inset-0 bg-gradient-to-br to-transparent opacity-90",
-          style.glow,
-        )}
-        aria-hidden
-      />
-      <div
-        className="absolute inset-0 grid-bg opacity-40"
-        aria-hidden
-      />
-      <div className="relative flex flex-col gap-6 p-6 sm:p-8 md:flex-row md:items-center md:justify-between">
-        <div className="flex-1 space-y-3">
-          <div className="flex items-center gap-2">
-            <Badge
-              variant={style.badge}
-              className="gap-1 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider"
+    <section className="rounded-[1.5rem] border border-border/60 bg-card p-6 shadow-card sm:p-8">
+      <div className="flex flex-col gap-8 md:flex-row md:items-stretch md:justify-between">
+        <div className="flex-1 space-y-4">
+          <div className="flex items-center gap-3">
+            <span
+              className={cn(
+                "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider",
+                style.accent,
+              )}
             >
-              <Icon className="h-3 w-3" strokeWidth={2.5} />
+              <span className={cn("h-1.5 w-1.5 rounded-full", style.dot)} />
               {style.label}
-            </Badge>
+            </span>
             <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
               Pickup recommendation
             </span>
           </div>
 
-          <h2 className="text-balance text-2xl font-semibold leading-tight tracking-tight sm:text-3xl md:text-[34px]">
+          <h2 className="font-display text-balance text-3xl font-bold leading-[1.05] tracking-tight sm:text-4xl md:text-[42px]">
             {headline}
           </h2>
 
-          <p className="max-w-2xl text-balance text-sm text-muted-foreground sm:text-base">
+          <p className="max-w-2xl text-balance text-sm text-muted-foreground sm:text-[15px]">
             {insights.recommendationReason}
           </p>
         </div>
 
-        <div className="flex shrink-0 flex-col items-start gap-2 rounded-xl border bg-background/80 p-4 backdrop-blur md:items-end">
-          <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
-            Action
-          </span>
-          <div className="flex items-center gap-2 text-base font-semibold">
-            {insights.recommendation}
-            <ArrowRight className="h-4 w-4" />
+        <div className="flex shrink-0 flex-col justify-between gap-4 rounded-2xl bg-foreground p-5 text-background md:min-w-[260px]">
+          <div className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-wider text-background/60">
+            <Icon className="h-3.5 w-3.5" strokeWidth={2.4} />
+            Recommended action
           </div>
-          <span className="text-xs text-muted-foreground">
-            Peak window · {insights.peakWindow}
-          </span>
+          <div className="space-y-1.5">
+            <div className="font-display text-2xl font-bold leading-tight tracking-tight">
+              {insights.recommendation}
+            </div>
+            <div className="flex items-center gap-1.5 text-xs text-background/70">
+              <span>Peak window starts</span>
+              <span className="font-mono font-semibold tabular-nums text-background">
+                {insights.peakWindow}
+              </span>
+            </div>
+          </div>
+          <div className="flex items-center gap-1.5 text-xs font-medium text-background/80">
+            View affected flights
+            <ArrowRight className="h-3.5 w-3.5" />
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 

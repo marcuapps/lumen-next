@@ -2,7 +2,6 @@
 
 import { ArrowDown, ArrowUp, ArrowUpDown, Plane } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -240,21 +239,19 @@ function DelayPill({ minutes }: { minutes: number }) {
   );
 }
 
-const STATUS_VARIANT: Record<
-  FlightStatus,
-  "secondary" | "warning" | "info" | "success"
-> = {
-  "On Time": "success",
-  Delayed: "warning",
-  Landed: "secondary",
-  Scheduled: "info",
+const STATUS_DOT: Record<FlightStatus, string> = {
+  "On Time": "bg-emerald-500",
+  Delayed: "bg-amber-500",
+  Landed: "bg-muted-foreground/60",
+  Scheduled: "bg-sky-500",
 };
 
 function StatusBadge({ status }: { status: FlightStatus }) {
   return (
-    <Badge variant={STATUS_VARIANT[status]} className="font-medium">
+    <span className="inline-flex items-center gap-1.5 text-sm text-foreground">
+      <span className={cn("h-2 w-2 rounded-full", STATUS_DOT[status])} />
       {status}
-    </Badge>
+    </span>
   );
 }
 

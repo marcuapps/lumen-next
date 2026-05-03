@@ -6,6 +6,7 @@ import { Clock, Plane, Timer, TrendingUp } from "lucide-react";
 import { DemandCharts } from "@/components/dashboard/DemandCharts";
 import { HeroInsightCard } from "@/components/dashboard/HeroInsightCard";
 import { MetricCard } from "@/components/dashboard/MetricCard";
+import { PageHeader } from "@/components/dashboard/PageHeader";
 import { useAirport } from "@/hooks/use-airport";
 import { useInsights } from "@/hooks/use-insights";
 
@@ -15,7 +16,12 @@ function AnalyticsView() {
   const insights = data?.insights;
 
   return (
-    <main className="mx-auto max-w-7xl space-y-6 px-4 py-6 sm:px-6 lg:px-8">
+    <main className="mx-auto max-w-7xl space-y-8 px-4 py-8 sm:px-6 lg:px-8">
+      <PageHeader
+        title="Analytics overview"
+        description={`Pickup-demand intelligence for arrivals at ${airport}, computed from this snapshot.`}
+      />
+
       <HeroInsightCard insights={insights} loading={isLoading} />
 
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -66,8 +72,6 @@ function AnalyticsView() {
   );
 }
 
-// useSearchParams (via useAirport) requires a Suspense boundary so Next.js
-// can statically prerender the shell while the airport-aware view hydrates.
 export default function AnalyticsPage() {
   return (
     <React.Suspense fallback={<AnalyticsSkeleton />}>
@@ -78,16 +82,23 @@ export default function AnalyticsPage() {
 
 function AnalyticsSkeleton() {
   return (
-    <main className="mx-auto max-w-7xl space-y-6 px-4 py-6 sm:px-6 lg:px-8">
-      <div className="h-44 animate-pulse rounded-2xl border bg-card" />
+    <main className="mx-auto max-w-7xl space-y-8 px-4 py-8 sm:px-6 lg:px-8">
+      <div className="space-y-3">
+        <div className="h-12 w-72 animate-pulse rounded-lg bg-muted" />
+        <div className="h-4 w-96 animate-pulse rounded bg-muted" />
+      </div>
+      <div className="h-44 animate-pulse rounded-[1.25rem] bg-card shadow-card" />
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="h-28 animate-pulse rounded-xl border bg-card" />
+          <div
+            key={i}
+            className="h-28 animate-pulse rounded-[1.25rem] bg-card shadow-card"
+          />
         ))}
       </div>
       <div className="grid gap-4 lg:grid-cols-2">
-        <div className="aspect-video animate-pulse rounded-xl border bg-card" />
-        <div className="aspect-video animate-pulse rounded-xl border bg-card" />
+        <div className="aspect-video animate-pulse rounded-[1.25rem] bg-card shadow-card" />
+        <div className="aspect-video animate-pulse rounded-[1.25rem] bg-card shadow-card" />
       </div>
     </main>
   );
